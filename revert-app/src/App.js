@@ -3,6 +3,7 @@ import SplashScreen from './screens/SplashScreen';
 import HomeScreen from './screens/HomeScreen';
 import PrayerScreen from './screens/PrayerScreen';
 import QuranScreen from './screens/QuranScreen';
+import DuasScreen from './screens/DuasScreen';
 import GuidesScreen from './screens/GuidesScreen';
 import BottomNav from './components/BottomNav';
 
@@ -42,6 +43,7 @@ export default function App() {
         {activeTab === 'home'   && <HomeScreen   onNavigate={handleTabChange} />}
         {activeTab === 'prayer' && <PrayerScreen />}
         {activeTab === 'quran'  && <QuranScreen  />}
+        {activeTab === 'duas'   && <DuasScreen   />}
         {activeTab === 'guides' && <GuidesScreen />}
       </div>
       <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
@@ -50,6 +52,6 @@ export default function App() {
 }
 
 function getScreenBg(tab) {
-  const map = { home: '#0f1a12', prayer: '#0d1f2d', quran: '#1a0f0a', guides: '#120d1f' };
+  const map = { home: '#0f1a12', prayer: '#0d1f2d', quran: '#1a0f0a', duas: '#0e0a1a', guides: '#120d1f' };
   return map[tab] || '#0f1a12';
 }

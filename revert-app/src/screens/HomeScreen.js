@@ -89,8 +89,8 @@ export default function HomeScreen({ onNavigate }) {
       }}>
         <QuickTile icon="📖" label="Daily Quran" sub="Surah Al-Fatiha" onClick={() => onNavigate('quran')} />
         <QuickTile icon="🧭" label="Qibla" sub="Tap to find direction" onClick={() => onNavigate('prayer')} />
+        <QuickTile icon="🤲" label="Duas" sub="Quranic supplications" onClick={() => onNavigate('duas')} />
         <QuickTile icon="📚" label="My Journey" sub="3 of 10 complete" onClick={() => onNavigate('guides')} />
-        <QuickTile icon="🤲" label="Du'a of the Day" sub="Morning Adhkar" onClick={() => onNavigate('guides')} />
       </div>
 
       {/* Daily Dhikr Card */}

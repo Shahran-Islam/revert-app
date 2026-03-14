@@ -24,43 +24,43 @@ const LESSONS = [
     id: 4, icon: '📿', color: '#8a63da', bg: 'rgba(138,99,218,0.12)',
     title: 'Daily Dhikr', sub: 'Remembrance of Allah',
     content: 'Dhikr means remembrance of Allah. After each prayer say: SubhanAllah 33x, Alhamdulillah 33x, Allahu Akbar 33x. Morning and evening adhkar are powerful sunnah practices. Common phrases: "Subhanallahi wa bihamdih" and "La hawla wa la quwwata illa billah".',
-    duration: '10 min', done: false, next: true,
+    duration: '10 min', done: false,
   },
   {
     id: 5, icon: '⚡', color: '#6fb3d8', bg: 'rgba(111,179,216,0.12)',
     title: 'The Five Pillars', sub: 'Foundations of Islam',
     content: '1) Shahada – Declaration of faith. 2) Salah – Five daily prayers. 3) Zakat – Obligatory charity (2.5% of savings). 4) Sawm – Fasting during Ramadan. 5) Hajj – Pilgrimage to Makkah (once in a lifetime if able).',
-    duration: '12 min', done: false, locked: false,
+    duration: '12 min', done: false,
   },
   {
     id: 6, icon: '🌙', color: '#c9a84c', bg: 'rgba(201,168,76,0.1)',
     title: 'Ramadan Basics', sub: 'The month of fasting',
     content: 'Ramadan is the 9th month of the Islamic lunar calendar. Muslims fast from Fajr to Maghrib — abstaining from food, drink, and other nullifiers. It is a time of increased worship, Quran recitation, and charity. The fast is broken with Iftar and the pre-dawn meal is called Suhoor.',
-    duration: '10 min', done: false, locked: false,
+    duration: '10 min', done: false,
   },
   {
     id: 7, icon: '📖', color: '#2db496', bg: 'rgba(45,180,150,0.12)',
     title: 'Reading the Quran', sub: 'Starting your Quran journey',
     content: 'Begin with Surah Al-Fatiha (7 verses) and the short surahs at the end of the Quran. Learn the Arabic alphabet and basic Tajweed rules. Use a translation alongside to understand meaning. Apps like Quran.com provide audio recitation to help with pronunciation.',
-    duration: '15 min', done: false, locked: true,
+    duration: '15 min', done: false,
   },
   {
     id: 8, icon: '🤲', color: '#8a63da', bg: 'rgba(138,99,218,0.12)',
     title: 'Dua & Supplication', sub: 'Talking directly to Allah',
     content: 'Dua is personal supplication — you can speak to Allah in any language, at any time. Best times: during sujood (prostration), between adhan and iqamah, last third of the night, and on Fridays. Begin with praise and salawat upon the Prophet ﷺ.',
-    duration: '8 min', done: false, locked: true,
+    duration: '8 min', done: false,
   },
   {
     id: 9, icon: '🕌', color: '#6fb3d8', bg: 'rgba(111,179,216,0.12)',
     title: 'The Mosque', sub: 'Your community home',
     content: 'The masjid (mosque) is the centre of Muslim community life. Friday Jumu\'ah prayer is obligatory for men. Etiquette: remove shoes at entrance, enter with right foot, pray 2 rakaat "tahiyyat al-masjid" upon entering, maintain silence and respect.',
-    duration: '10 min', done: false, locked: true,
+    duration: '10 min', done: false,
   },
   {
     id: 10, icon: '⭐', color: '#c9a84c', bg: 'rgba(201,168,76,0.1)',
     title: 'Islamic Character', sub: 'Living as a Muslim',
     content: 'Islam is a complete way of life. The Prophet ﷺ said: "I have been sent to perfect good character." Key traits: honesty (sidq), trustworthiness (amanah), humility (tawadu), patience (sabr), and gratitude (shukr). Begin each action with Bismillah.',
-    duration: '12 min', done: false, locked: true,
+    duration: '12 min', done: false,
   },
 ];
 
@@ -125,7 +125,7 @@ export default function GuidesScreen() {
           return (
             <div key={lesson.id}>
               <div
-                onClick={() => !lesson.locked && setExpanded(open ? null : lesson.id)}
+                onClick={() => setExpanded(open ? null : lesson.id)}
                 style={{
                   background: done ? 'rgba(138,99,218,0.08)' : 'rgba(255,255,255,0.03)',
                   border: done ? '0.5px solid rgba(138,99,218,0.25)' : '0.5px solid rgba(255,255,255,0.07)',
@@ -134,8 +134,7 @@ export default function GuidesScreen() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '12px',
-                  cursor: lesson.locked ? 'not-allowed' : 'pointer',
-                  opacity: lesson.locked ? 0.45 : 1,
+                  cursor: 'pointer',
                   transition: 'all 0.2s',
                 }}
               >
@@ -166,9 +165,7 @@ export default function GuidesScreen() {
 
                 {/* Badge */}
                 <div>
-                  {lesson.locked ? (
-                    <span style={{ fontSize: '14px' }}>🔒</span>
-                  ) : done ? (
+                  {done ? (
                     <div onClick={(e) => toggleComplete(lesson.id, e)} style={{
                       background: 'rgba(138,99,218,0.2)',
                       color: '#b088f5',
@@ -178,15 +175,6 @@ export default function GuidesScreen() {
                       borderRadius: 20,
                       cursor: 'pointer',
                     }}>Done ✓</div>
-                  ) : lesson.next ? (
-                    <div style={{
-                      background: 'rgba(201,168,76,0.15)',
-                      color: '#c9a84c',
-                      fontFamily: "'DM Sans', sans-serif",
-                      fontSize: 'clamp(9px,2.2vw,11px)',
-                      padding: '4px 10px',
-                      borderRadius: 20,
-                    }}>Next</div>
                   ) : (
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                       <path d={open ? "M4 10L8 6L12 10" : "M4 6L8 10L12 6"} stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" strokeLinecap="round"/>
@@ -196,7 +184,7 @@ export default function GuidesScreen() {
               </div>
 
               {/* Expanded Content */}
-              {open && !lesson.locked && (
+              {open && (
                 <div style={{
                   background: 'rgba(255,255,255,0.02)',
                   border: '0.5px solid rgba(255,255,255,0.07)',

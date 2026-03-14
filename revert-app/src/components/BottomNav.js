@@ -4,6 +4,7 @@ const TABS = [
   { id: 'home',   label: 'Home',   icon: HomeIcon,   color: '#c9a84c' },
   { id: 'prayer', label: 'Prayer', icon: PrayerIcon, color: '#6fb3d8' },
   { id: 'quran',  label: 'Quran',  icon: QuranIcon,  color: '#c9a84c' },
+  { id: 'duas',   label: 'Duas',   icon: DuasIcon,   color: '#8a63da' },
   { id: 'guides', label: 'Learn',  icon: GuideIcon,  color: '#8a63da' },
 ];
 
@@ -104,6 +105,18 @@ function QuranIcon({ size, color }) {
       <rect x="4" y="3" width="13" height="18" rx="2" stroke={color} strokeWidth="1.5"/>
       <path d="M7 8H14M7 11H14M7 14H11" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
       <path d="M17 6H20V21H8" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function DuasIcon({ size, color }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <path d="M12 2C8 2 5 5 5 9C5 13 8 16 12 16C16 16 19 13 19 9C19 5 16 2 12 2Z" stroke={color} strokeWidth="1.5" fill="none"/>
+      <path d="M8 9C8 9 9.5 11 12 11C14.5 11 16 9 16 9" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M9 7H9.01M15 7H15.01" stroke={color} strokeWidth="2" strokeLinecap="round"/>
+      <path d="M7 19L12 17L17 19" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M12 17V22" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
   );
 }
