@@ -9,14 +9,11 @@ import BottomNav from './components/BottomNav';
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('splash');
   const [activeTab, setActiveTab] = useState('home');
-  const [isReady, setIsReady] = useState(false);
 
-  // After splash, show home
   useEffect(() => {
     if (currentScreen === 'splash') {
       const timer = setTimeout(() => {
         setCurrentScreen('home');
-        setIsReady(true);
       }, 3000);
       return () => clearTimeout(timer);
     }

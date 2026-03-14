@@ -64,9 +64,6 @@ const LESSONS = [
   },
 ];
 
-const DONE_COUNT = LESSONS.filter(l => l.done).length;
-const PROGRESS = (DONE_COUNT / LESSONS.length) * 100;
-
 export default function GuidesScreen() {
   const [expanded, setExpanded] = useState(null);
   const [completedIds, setCompletedIds] = useState(new Set(LESSONS.filter(l => l.done).map(l => l.id)));
