@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 const TABS = [
-  { id: 'home',   label: 'Home',   icon: HomeIcon,   color: '#c9a84c' },
-  { id: 'prayer', label: 'Prayer', icon: PrayerIcon, color: '#6fb3d8' },
-  { id: 'quran',  label: 'Quran',  icon: QuranIcon,  color: '#c9a84c' },
-  { id: 'duas',   label: 'Duas',   icon: DuasIcon,   color: '#8a63da' },
-  { id: 'guides', label: 'Learn',  icon: GuideIcon,  color: '#8a63da' },
+  { id: 'home',      label: 'Home',      icon: HomeIcon,      color: '#c9a84c' },
+  { id: 'prayer',    label: 'Prayer',    icon: PrayerIcon,    color: '#6fb3d8' },
+  { id: 'quran',     label: 'Quran',     icon: QuranIcon,     color: '#c9a84c' },
+  { id: 'duas',      label: 'Duas',      icon: DuasIcon,      color: '#8a63da' },
+  { id: 'bookmarks', label: 'Saved',     icon: BookmarkIcon,  color: '#e8875a' },
+  { id: 'guides',    label: 'Learn',     icon: GuideIcon,     color: '#8a63da' },
 ];
 
 // Hook to get the real safe area inset bottom from the device
@@ -170,6 +171,15 @@ function DuasIcon({ size, color }) {
       <path d="M9 7H9.01M15 7H15.01" stroke={color} strokeWidth="2" strokeLinecap="round"/>
       <path d="M7 19L12 17L17 19" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
       <path d="M12 17V22" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function BookmarkIcon({ size, color }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <path d="M5 3H19C19.55 3 20 3.45 20 4V21L12 17L4 21V4C4 3.45 4.45 3 5 3Z"
+        stroke={color} strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
     </svg>
   );
 }

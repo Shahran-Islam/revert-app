@@ -180,7 +180,7 @@ const CATEGORY_COLORS = {
   Prophets:    { bg: 'rgba(201,168,76,0.12)',  color: '#c9a84c', border: 'rgba(201,168,76,0.25)' },
 };
 
-export default function DuasScreen() {
+export default function DuasScreen({ addBookmark, removeBookmark, isBookmarked }) {
   const [activeCategory, setActiveCategory] = useState('All');
   const [expandedId, setExpandedId] = useState(null);
   const [search, setSearch] = useState('');
@@ -252,10 +252,9 @@ export default function DuasScreen() {
       <div style={{ padding: '0 16px 24px', display: 'flex', flexDirection: 'column', gap: 10 }}>
 
         {/* Featured */}
-        {featured.map(dua => <DuaCard key={dua.id} dua={dua} expanded={expandedId === dua.id} onToggle={toggle} featured />)}
-
+        {featured.map(dua => <DuaCard key={dua.id} dua={dua} expanded={expandedId === dua.id} onToggle={toggle} featured addBookmark={addBookmark} removeBookmark={removeBookmark} isBookmarked={isBookmarked} />)}
         {/* Regular */}
-        {regular.map(dua => <DuaCard key={dua.id} dua={dua} expanded={expandedId === dua.id} onToggle={toggle} />)}
+        {regular.map(dua => <DuaCard key={dua.id} dua={dua} expanded={expandedId === dua.id} onToggle={toggle} addBookmark={addBookmark} removeBookmark={removeBookmark} isBookmarked={isBookmarked} />)}
 
         {filtered.length === 0 && (
           <div style={{ textAlign: 'center', padding: '40px 0', fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: 'rgba(255,255,255,0.3)' }}>
@@ -267,8 +266,26 @@ export default function DuasScreen() {
   );
 }
 
-function DuaCard({ dua, expanded, onToggle, featured }) {
+function DuaCard({ dua, expanded, onToggle, featured, addBookmark, removeBookmark, isBookmarked }) {
   const col = CATEGORY_COLORS[dua.category] || CATEGORY_COLORS.Forgiveness;
+  const saved = isBookmarked && isBookmarked(`dua-${dua.id}`);
+
+  const toggleBookmark = (e) => {
+    e.stopPropagation();
+    if (saved) {
+      removeBookmark(`dua-${dua.id}`);
+    } else {
+      addBookmark({
+        id: `dua-${dua.id}`,
+        type: 'dua',
+        title: dua.title,
+        arabic: dua.arabic,
+        transliteration: dua.transliteration,
+        translation: dua.translation,
+        reference: dua.reference,
+      });
+    }
+  };
 
   return (
     <div style={{
@@ -299,6 +316,9 @@ function DuaCard({ dua, expanded, onToggle, featured }) {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 'clamp(8px, 2vw, 10px)', color: 'rgba(255,255,255,0.25)' }}>{dua.reference}</div>
+            <button onClick={toggleBookmark} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 16, padding: 0, lineHeight: 1 }}>
+              {saved ? '❤️' : '🤍'}
+            </button>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ transition: 'transform 0.2s', transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}>
               <path d="M3 5L7 9L11 5" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
