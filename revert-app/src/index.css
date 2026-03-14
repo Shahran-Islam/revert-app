@@ -1,0 +1,147 @@
+:root {
+  --gold: #c9a84c;
+  --gold-dim: rgba(201, 168, 76, 0.6);
+  --gold-faint: rgba(201, 168, 76, 0.12);
+  --gold-glow: rgba(201, 168, 76, 0.25);
+  --white: #ffffff;
+  --white-70: rgba(255, 255, 255, 0.7);
+  --white-50: rgba(255, 255, 255, 0.5);
+  --white-30: rgba(255, 255, 255, 0.3);
+  --white-10: rgba(255, 255, 255, 0.1);
+  --white-05: rgba(255, 255, 255, 0.05);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-gold: rgba(201, 168, 76, 0.25);
+
+  /* Screen colours */
+  --bg-home: #0f1a12;
+  --bg-prayer: #0d1f2d;
+  --bg-quran: #1a0f0a;
+  --bg-guides: #120d1f;
+  --bg-splash: #0a1209;
+
+  /* Blue accent for prayer */
+  --blue: #6fb3d8;
+  --blue-dim: rgba(111, 179, 216, 0.2);
+
+  /* Purple accent for guides */
+  --purple: #8a63da;
+  --purple-dim: rgba(138, 99, 218, 0.15);
+
+  /* Teal accent */
+  --teal: #2db496;
+
+  /* Font families */
+  --font-display: 'Cinzel', serif;
+  --font-arabic: 'Amiri', serif;
+  --font-body: 'DM Sans', sans-serif;
+
+  /* Safe areas (overridden by env() on real devices) */
+  --safe-top: env(safe-area-inset-top, 44px);
+  --safe-bottom: env(safe-area-inset-bottom, 34px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-size: 16px;
+  /* Prevent font size adjustment on orientation change */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-splash);
+  color: var(--white);
+  overscroll-behavior: none;
+  overflow: hidden;
+  height: 100dvh;
+  width: 100vw;
+}
+
+#root {
+  height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Utility classes */
+.screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.scrollable {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.scrollable::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth transitions between screens */
+.screen-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.screen-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.screen-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.screen-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Gold divider */
+.divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0 auto;
+}
+
+/* Pulse animation for loading dots */
+@keyframes dotPulse {
+  0%, 80%, 100% { opacity: 0.25; transform: scale(0.7); }
+  40% { opacity: 1; transform: scale(1); }
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
