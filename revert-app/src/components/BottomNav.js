@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const TABS = [
   { id: 'home',   label: 'Home',   icon: HomeIcon,   color: '#c9a84c' },
@@ -8,76 +8,129 @@ const TABS = [
   { id: 'guides', label: 'Learn',  icon: GuideIcon,  color: '#8a63da' },
 ];
 
+// Hook to get the real safe area inset bottom from the device
+function useSafeAreaBottom() {
+  const [safeBottom, setSafeBottom] = useState(0);
+
+  useEffect(() => {
+    const measure = () => {
+      // Create a test element to read the computed env() value
+      const el = document.createElement('div');
+      el.style.cssText = `
+        position: fixed;
+        bottom: 0;
+        height: env(safe-area-inset-bottom, 0px);
+        width: 0;
+        pointer-events: none;
+        visibility: hidden;
+      `;
+      document.body.appendChild(el);
+      const h = el.getBoundingClientRect().height;
+      document.body.removeChild(el);
+      // Minimum 20px on modern iPhones even if env() reports 0
+      setSafeBottom(Math.max(h, window.innerHeight > 800 ? 20 : 0));
+    };
+
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
+
+  return safeBottom;
+}
+
 export default function BottomNav({ activeTab, onTabChange }) {
+  const safeBottom = useSafeAreaBottom();
+  // Nav content height (icon + label + indicator)
+  const NAV_CONTENT_HEIGHT = 54;
+  const totalHeight = NAV_CONTENT_HEIGHT + safeBottom;
+
   return (
-    <nav
-      style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: 'calc(70px + env(safe-area-inset-bottom, 20px))',
-        paddingBottom: 'env(safe-area-inset-bottom, 20px)',
-        background: 'rgba(8, 8, 8, 0.92)',
-        borderTop: '0.5px solid rgba(255,255,255,0.08)',
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'space-around',
-        paddingTop: '10px',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        zIndex: 100,
-      }}
-    >
-      {TABS.map((tab) => {
-        const active = activeTab === tab.id;
-        const Icon = tab.icon;
-        return (
-          <button
-            key={tab.id}
-            onClick={() => onTabChange(tab.id)}
-            style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '4px',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '0 4px',
-              transition: 'opacity 0.18s',
-              opacity: active ? 1 : 0.5,
-            }}
-          >
-            <Icon
-              size={22}
-              color={active ? tab.color : 'rgba(255,255,255,0.5)'}
-            />
-            <span
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: 'clamp(9px, 2.5vw, 11px)',
-                fontWeight: active ? 500 : 400,
-                color: active ? tab.color : 'rgba(255,255,255,0.4)',
-                transition: 'color 0.18s',
-              }}
-            >
-              {tab.label}
-            </span>
-            <div
-              style={{
-                width: active ? 20 : 0,
-                height: 2,
-                borderRadius: 2,
-                background: tab.color,
-                transition: 'width 0.22s ease',
-              }}
-            />
-          </button>
-        );
-      })}
-    </nav>
+    <>
+      {/* Actual nav bar */}
+      <nav
+        style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: totalHeight,
+          background: 'rgba(6, 6, 6, 0.94)',
+          borderTop: '0.5px solid rgba(255,255,255,0.09)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          zIndex: 100,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        {/* Tab buttons — live in the top NAV_CONTENT_HEIGHT portion */}
+        <div
+          style={{
+            height: NAV_CONTENT_HEIGHT,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+            paddingTop: 6,
+          }}
+        >
+          {TABS.map((tab) => {
+            const active = activeTab === tab.id;
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => onTabChange(tab.id)}
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 3,
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '0 2px',
+                  WebkitTapHighlightColor: 'transparent',
+                  transition: 'opacity 0.18s',
+                  opacity: active ? 1 : 0.45,
+                  minWidth: 0,
+                }}
+              >
+                <Icon size={22} color={active ? tab.color : 'rgba(255,255,255,0.6)'} />
+                <span
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: 'clamp(8px, 2vw, 10px)',
+                    fontWeight: active ? 500 : 400,
+                    color: active ? tab.color : 'rgba(255,255,255,0.4)',
+                    transition: 'color 0.18s',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {tab.label}
+                </span>
+                <div
+                  style={{
+                    width: active ? 18 : 0,
+                    height: 2,
+                    borderRadius: 2,
+                    background: tab.color,
+                    transition: 'width 0.22s ease',
+                  }}
+                />
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Safe area spacer — fills the home indicator zone */}
+        <div style={{ height: safeBottom, flexShrink: 0 }} />
+      </nav>
+
+      {/* Invisible spacer so scrollable content isn't hidden behind nav */}
+      <div style={{ height: totalHeight, flexShrink: 0 }} />
+    </>
   );
 }
 

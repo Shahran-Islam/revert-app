@@ -16,13 +16,15 @@ export default function StatusBar({ color = 'rgba(255,255,255,0.5)' }) {
   return (
     <div
       style={{
-        paddingTop: 'env(safe-area-inset-top, 44px)',
         paddingLeft: 'env(safe-area-inset-left, 0px)',
         paddingRight: 'env(safe-area-inset-right, 0px)',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 'env(safe-area-inset-top, 44px) 20px 8px',
+        paddingTop: 'max(env(safe-area-inset-top, 44px), 44px)',
+        paddingLeft: '20px',
+        paddingRight: '20px',
+        paddingBottom: '8px',
         fontFamily: "'DM Sans', sans-serif",
         fontSize: 'clamp(11px, 3vw, 13px)',
         fontWeight: 500,

@@ -37,7 +37,9 @@ export default function App() {
           position: 'absolute',
           inset: 0,
           animation: 'fadeInUp 0.28s ease forwards',
-          paddingBottom: 'calc(70px + env(safe-area-inset-bottom, 20px))',
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          WebkitOverflowScrolling: 'touch',
         }}
       >
         {activeTab === 'home'   && <HomeScreen   onNavigate={handleTabChange} />}
